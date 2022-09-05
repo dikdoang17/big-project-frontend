@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bigproject-mern-ingress
+  namespace: staging
+  labels:
+    app: bigproject-mern
+    tier: frontend
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: staging.sosmedpesbuk.web.id
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: bigproject-mern-frontend
+            port:
+              number: 3000
+      - path: /users
+        pathType: Prefix
+        backend:
+          service:
+            name: bigproject-mern-backend
+            port:
+              number: 5000
