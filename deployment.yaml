@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bigproject-mern-frontend
+  namespace: production
+  labels:
+    app: bigproject-mern
+    tier: frontend
+spec:
+  ports:
+  - port: 3000
+    targetPort: 3000
+    name: bigproject-frontend-port
+  selector:
+    app: bigproject-mern
+    tier: frontend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bigproject-mern-frontend
+  namespace: production
+spec:
+  selector:
+    matchLabels:
+      app: bigproject-mern
+      tier: frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bigproject-mern
+        tier: frontend
+    spec:
+      containers:
+      - name: bigproject-mern-frontend
+        image: 763416836081.dkr.ecr.ap-southeast-1.amazonaws.com/big-project/frontend:2.0
+        resources:
+          limits:
+            memory: 400Mi
+            cpu: 100m
+          requests:
+            memory: 80Mi
+            cpu: 50m
+        ports:
+        - containerPort: 3000
